@@ -19,42 +19,8 @@ class Signup : AppCompatActivity() {
         auth = FirebaseAuth.getInstance();
 
         signup_btn.setOnClickListener {
-<<<<<<< HEAD
+
            signUpUser()
-=======
-            if (username.text.toString().isEmpty()) {
-                username.error = "Please enter username"
-                username.requestFocus()
-            }
-            if (Email1.text.toString().isEmpty()) {
-                Email1.error = "Please enter Email"
-                username.requestFocus()
-
-            }
-            if (!Patterns.EMAIL_ADDRESS.matcher(Email1.text.toString()).matches()) {
-                Email1.error = "Please enter valid Email"
-                Email1.requestFocus()
-
-            }
-            if (Password1.text.toString().isEmpty()) {
-                Password1.error = "Please enter Password"
-                username.requestFocus()
-            }
-
-            auth.signInWithEmailAndPassword(Email1.text.toString(), Password1.text.toString())
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val user = auth.currentUser
-                        startActivity(Intent(this,Home::class.java))
-                        finish()
-                    } else {
-                        Toast.makeText(baseContext, "try again later",
-                            Toast.LENGTH_SHORT).show()
-                    }
-
-                    
-                }
->>>>>>> developer
 
         }
     }
