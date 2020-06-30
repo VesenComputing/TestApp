@@ -43,7 +43,7 @@ class Signup : AppCompatActivity() {
                         startActivity(Intent(this,Home::class.java))
                         finish()
                     } else {
-                        Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.makeText(baseContext, "try again later",
                             Toast.LENGTH_SHORT).show()
                     }
 
