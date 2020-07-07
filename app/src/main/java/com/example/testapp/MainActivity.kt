@@ -2,6 +2,7 @@ package com.example.testapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
@@ -10,20 +11,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_signup.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val mAuth: FirebaseAuth? = null
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        Sign_up.setOnClickListener {
+            Sign_up.setOnClickListener {
             startActivity(Intent(this, Signup::class.java))
             finish()
-        }
+             }
 
 
         login_btn.setOnClickListener {
@@ -33,23 +34,45 @@ class MainActivity : AppCompatActivity() {
 
    private fun OneC(){
 
-        LoginToFireBase(Email.text.toString(),Password.text.toString())
+           val Email= findViewById<android.view.View>(R.id.Email1) as EditText
+           val Password = findViewById<android.view.View>(R.id.Password1) as EditText
 
-    }
 
-   private fun LoginToFireBase(email:String,password:String){
 
-        mAuth!!.createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener(this){ task ->
+           val email =Email.text.toString()
+           val password =Password.text.toString()
+
+
+
+
+
+        if (!email.isEmpty() && !password.isEmpty()) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
 
                 if (task.isSuccessful){
-                    startActivity(Intent(this, Home::class.java))
-                    Toast.makeText(applicationContext,"Successful login",Toast.LENGTH_LONG).show()
-                }
-                else
-                {
-                    Toast.makeText(this,"Login UnSuccessful",Toast.LENGTH_LONG).show()
+                    //                  sign in success update ui
+                    Log.d("success", "create user with email is successful")
+
+
+                    Toast.makeText(this, "Sucess", Toast.LENGTH_LONG).show()
+
+
+
+//                        updateUi(user)
+                }else {
+                    Log.w("failure", "Create user with email failed")
+
+                    Toast.makeText(baseContext, "Authentication failed." + task.exception!!.message,
+                        Toast.LENGTH_SHORT).show()
+//                        updateUi(null)
                 }
             }
+
+    }else {
+        Toast.makeText(this,"Please fill up the Credentials :|", Toast.LENGTH_LONG).show()
     }
+
+
+}
 }
